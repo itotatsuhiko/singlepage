@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <% include ../_partial/common_css %>
+    <% include ../_partial/common_js %>
+    <link rel='stylesheet' href='/stylesheets/users/index.css' />
+    <script type="text/javascript" src="/javascripts/users/index.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <h1>ユーザリスト</h1>
+      <botton class="btn btn-default btn_search">
+        Get user List 
+      </botton>
+      <div class="user_list_area">
+        <table id="user_list_table" class="table">
+          <thead>
+            <th>id</th>
+            <th>name</th>
+            <th>age</th>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
