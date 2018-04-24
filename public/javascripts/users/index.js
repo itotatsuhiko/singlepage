@@ -33,21 +33,21 @@ var apiService = BaseApp.Users.ApiService = function (context) {
 apiService.prototype.init = function(){
 }
 apiService.prototype.dataTable = function(){
-$(document).ready(function(){
-	$.extend( $.fn.dataTable.defaults, {
-		language: { url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json" }
-	});
-	$("#user_list_table").DataTable({
-        retrieve: true, 
-        searching: false,
-        ajax: { url: "http://localhost:3000/api/users",
-            status: "true",
-             dataSrc: "data" },
-		columns: [
-			{ data: "user_id" },
-            { data: "name" },
-            { data : "age" }
-		]
-	});
-});
+    $(document).ready(function(){
+	    $.extend( $.fn.dataTable.defaults, {
+		    language: { url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json" }
+	    });
+	    $("#user_list_table").DataTable({
+            retrieve: true, 
+            searching: false,
+            ajax: { url: "http://localhost:3000/api/users",
+                status: "true",
+                dataSrc: "data" },
+		    columns: [
+			    { data: "user_id" },
+                { data: "name" },
+                { data : "age" }
+		    ]
+	    });
+    });
 };
