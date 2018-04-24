@@ -5,7 +5,9 @@
     <% include ../_partial/common_css %>
     <% include ../_partial/common_js %>
     <link rel='stylesheet' href='/stylesheets/users/index.css' />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="/javascripts/users/index.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
   </head>
   <body>
     <div id="container">
@@ -16,13 +18,10 @@
       <div class="user_list_area">
         <table id="user_list_table" class="table">
           <thead>
-            <th>id</th>
+            <th>user_id</th>
             <th>name</th>
             <th>age</th>
           </thead>
-          <tbody>
-            
-          </tbody>
         </table>
       </div>
     </div>
