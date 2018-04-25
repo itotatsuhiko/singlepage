@@ -16,7 +16,24 @@ userList.prototype.init = function () {
 userList.prototype.onClickGetUserListBtn = function(){
     console.log('click');
     var apiService = new BaseApp.Users.ApiService(this);
-    apiService.dataTable(this.$userTable);
+    apiService.getJsonData(this.$userTable);
+}
+
+userList.prototype.makeTable = function(payload){
+    var data = payload.data;
+    $.extend( $.fn.dataTable.defaults, {
+        language: { url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json" }
+    });
+    $("#user_list_table").DataTable({
+        retrieve: true, 
+        searching: false,
+        data,
+        columns : [
+            { data: "user_id" },
+            { data: "name" },
+            { data: "age" } 
+        ]
+    });
 }
 
 //javascriptのエントリポイント
@@ -32,22 +49,23 @@ var apiService = BaseApp.Users.ApiService = function (context) {
 }
 apiService.prototype.init = function(){
 }
-apiService.prototype.dataTable = function(){
-    $(document).ready(function(){
-	    $.extend( $.fn.dataTable.defaults, {
-		    language: { url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json" }
-	    });
-	    $("#user_list_table").DataTable({
-            retrieve: true, 
-            searching: false,
-            ajax: { url: "http://localhost:3000/api/users",
-                status: "true",
-                dataSrc: "data" },
-		    columns: [
-			    { data: "user_id" },
-                { data: "name" },
-                { data : "age" }
-		    ]
-	    });
+apiService.prototype.getJsonData = function(){
+    $.ajax( { url: "http://localhost:3000/api/users",
+        status: "true",
+        dataSrc: "data" 
+     }).done( function (data, textStatus, jqXHR) {
+         //文字'歳'の付与
+        var changeData;
+        for (var i = 0;i < data.data.length; i++) {
+            changeData = data.data[i].age + '歳';
+            data.data[i].age = changeData;
+        }
+        console.log(data);
+        this.context.makeTable(data);
+    }.bind(this)) 
+    .fail( function (jqXHR, textStatus, error) {
+        console.log('error');
     });
-};
+}
+
+
