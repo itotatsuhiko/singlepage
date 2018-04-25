@@ -31,7 +31,8 @@ userList.prototype.makeTable = function(payload){
         columns : [
             { data: "user_id" },
             { data: "name" },
-            { data: "age" } 
+            { data: "age" } ,
+            { data: "gender"}
         ]
     });
 }
@@ -56,11 +57,17 @@ apiService.prototype.getJsonData = function(){
      }).done( function (data, textStatus, jqXHR) {
          //文字'歳'の付与
         var changeData;
-        for (var i = 0;i < data.data.length; i++) {
+        for (var i = 0; i < data.data.length; i++) {
             changeData = data.data[i].age + '歳';
             data.data[i].age = changeData;
         }
-        console.log(data);
+        //JS側でgenderカラム(X)を追加
+        var addData= "X";
+        for (var i =0; i < data.data.length; i++) {
+            data.data[i].gender = addData;
+        }
+        // console.log(data.data);
+        // console.log(data);
         this.context.makeTable(data);
     }.bind(this)) 
     .fail( function (jqXHR, textStatus, error) {
