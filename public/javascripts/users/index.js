@@ -6,11 +6,15 @@ var userList =
 BaseApp.Users.UserList = function(){
     var $workArea = $('#container');
     this.$btnGetUserList = $workArea.find('.btn_search');
+    this.$btnGetMore = $workArea.find('.btn_more');
     this.$userTable = $workArea.find('#user_list_table');
 }
 userList.prototype.init = function () {
     console.log('init');
     this.$btnGetUserList.click(this.onClickGetUserListBtn.bind(this));
+    this.$btnGetMore.click(this.onClickGetMoreBtn.bind(this));
+    console.log('this');
+    console.log(this);
 }
 //ボタン押下時の処理
 userList.prototype.onClickGetUserListBtn = function(){
@@ -18,12 +22,18 @@ userList.prototype.onClickGetUserListBtn = function(){
     var apiService = new BaseApp.Users.ApiService(this);
     apiService.getJsonData(this.$userTable);
 }
+userList.prototype.onClickGetMoreBtn = function(){
+    console.log('moreBtnclick');
+    window.location.href = '/users/more/';
+}
+
 
 userList.prototype.makeTable = function(payload){
     var data = payload.data;
     $.extend( $.fn.dataTable.defaults, {
         language: { url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json" }
     });
+    //テーブル反映
     $("#user_list_table").DataTable({
         retrieve: true, 
         searching: false,
@@ -32,7 +42,12 @@ userList.prototype.makeTable = function(payload){
             { data: "user_id" },
             { data: "name" },
             { data: "age" } ,
-            { data: "gender"}
+            { data: "gender"},
+            { data : "btn", 
+                    orderable: false, 
+                    title : 'btn' , 
+                    'defaultContent': '<button class=btn btn-default btn_more>More</button>'
+            },
         ]
     });
 }
