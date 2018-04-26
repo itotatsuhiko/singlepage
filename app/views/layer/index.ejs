@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <% include ../_partial/common_css %>
+    <% include ../_partial/common_js %>
+        <link rel="stylesheet" href="http://openlayers.org/en/v3.5.0/css/ol.css" 
+          type="text/css">
+        <link rel="stylesheet" href="/stylesheets/layer/index.css">
+        <script src="http://openlayers.org/en/v3.5.0/build/ol.js"
+          type="text/javascript"></script>
+        <script src="/javascripts/layer/map.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <h2>My Map</h2>
+        <div id="map" class="map"></div>
+    </body>
+</html>
