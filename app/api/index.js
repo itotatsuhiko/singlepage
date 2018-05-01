@@ -11,6 +11,6 @@ router.get('/users', function(req, res, next) {
 /* GET users list */
 router.get('/gender', function(req, res, next) {
     
-    genderController.getgender(req, res, next);
+    genderController.getGenderList(req, res, next);
 });
 module.exports = router;
