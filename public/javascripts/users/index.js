@@ -7,7 +7,6 @@ BaseApp.Users.UserList = function() {
     var $workArea = $('#container');
     this.$btnGetUserList = $workArea.find('.btn_search');
     this.$btnGetMore = $workArea.find('.btn_more');
-//    this.$userTable = $workArea.find('#user_list_table');
 }
 userList.prototype.init = function () {
     console.log('init');
@@ -23,16 +22,17 @@ userList.prototype.onClickGetUserListBtn = function() {
 //詳細画面遷移
 $(document).on('click','.btn_more',function(){
     console.log('moreBtnclick');
-    window.location.href = '/users/more/';
+    window.location.href = `/users/more/#/`;
+    //window.location.href = `/users/more/#/${user_id}`;
 });
 //テーブルを作成
 userList.prototype.makeTable = function(payload) {
+    console.log(payload)
     var data = payload.data;
-    console.log('payload.data');
-    console.log(payload.data);
     $.extend( $.fn.dataTable.defaults, {
         language: { url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json" }
     });
+
     //テーブル反映
     $("#user_list_table").DataTable({
         retrieve: true, 
@@ -42,16 +42,14 @@ userList.prototype.makeTable = function(payload) {
             { data: "user_id" },
             { data: "name" },
             { data: "age" } ,
-            { data: "gender"},
+            { data: "gender" },
             { data : "btn", 
                     orderable: true, 
                     title : 'btn', 
-                    'defaultContent': '<button class="btn btn-default btn_more">More</button>'
+                    'defaultContent': '<button class="btn btn-default btn_more id=$user_id">More</button>'
             },
         ]
     });
-    console.log('data');
-    console.log(data);
 }
 
 //javascriptのエントリポイント
@@ -59,7 +57,6 @@ $(document).ready(function() {
     console.log('hello');
     var userList = new BaseApp.Users.UserList();
     userList.init();
-
 });
 
 //api処理用のオブジェクト(クラス)
@@ -69,59 +66,49 @@ var apiService = BaseApp.Users.ApiService = function (context) {
 apiService.prototype.init = function() {
 }
 apiService.prototype.getJsonData = function() {
-    var json = 'http://localhost:3000/api/users'
-    var json2 = 'http://localhost:3000/api/gender'
-    var test = $.ajax( { 
-        url: json,
+    var userJsonUlr = 'http://localhost:3000/api/users'
+    var genderJsonUlr = 'http://localhost:3000/api/gender'
+    var test = $.ajax( {
+        type: "GET", 
+        url: userJsonUlr,
         status: "true",
-        dataSrc: "data", 
+        dataSrc: "data",
+        dataType: "json",
+        contentType: 'application/json' 
      })
-     .done( function (data, textStatus, jqXHR) {
+     .done( function (usersData, userstextStatus, jqXHR) {
        //文字'歳'の付与
         var changeData;
-        for (var i = 0; i < data.data.length; i++) {
-            changeData = data.data[i].age + '歳';
-            data.data[i].age = changeData;
+        for (var i = 0; i < usersData.data.length; i++) {
+            changeData = usersData.data[i].age + '歳';
+            usersData.data[i].age = changeData;
         }
-        var test = $.ajax( { 
-            url: json2,
+        $.ajax( {
+            type: "GET", 
+            url: genderJsonUlr,
             status: "true",
-            dataSrc: "data", 
+            dataSrc: "data",
+            dataType: "json",
+            contentType: 'application/json'
         })
-        .done(function(data2,textStatus, jqXHR){
-            //console.log(data2);
-              for (var i =0; i < data.data.length; i++) {
-                data.data[i].gender = data2.data[i].gender
-             }
+        .done(function(gendersData,genderstextStatus, jqXHR){
+            for(var i = 0; i < gendersData.length; i++){
+                console.log('aa')
+                for(var j = 0; j < gendersData.length; j++){
+                        //console.log('usersData.data[i].gender');
+                        // console.log(usersData.data[i].gender);
+                        // console.log('gendersData.data[j].gender');
+                        // console.log(gendersData.data[j].gender);
+               }
+            }
          })
-        //JS側でgenderカラム(X)を追加
-        var addData= data;
-        console.log('data');
-        console.log (data);
-        for (var i =0; i < data.data.length; i++) {
-            data.data[i].gender = addData;
-        }
-        console.log(data);
-        this.context.makeTable(data);
-
+        //  .fail( function (jqXHR, genderstextStatus, error) {
+        //     console.log('error');
+        //  })
+        this.context.makeTable(usersData);
     }.bind(this)) 
-    .fail( function (jqXHR, textStatus, error) {
+    .fail( function (jqXHR, userstextStatus, error) {
         console.log('error');
     });
 }
 
-// apiService.prototype.getGenderData = function() {
-//     var json = 'http://localhost:3000/api/gender'
-//     $.ajax( { 
-//         url: json,
-//         status: "true",
-//         dataSrc: "data" 
-//      })
-//      .done( function (data1, textStatus, jqXHR) {
-//         this.context.makeTable(data1);
-//         console.log(data1);
-//     }.bind(this)) 
-//     .fail( function (jqXHR, textStatus, error) {
-//         console.log('error');
-//     });
-// }
