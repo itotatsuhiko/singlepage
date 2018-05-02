@@ -4,8 +4,33 @@
         <title><%= title %></title>
         <% include ../../_partial/common_css %>
         <% include ../../_partial/common_js %>
+        <link rel='stylesheet' href='/stylesheets/users/index.css' />
+       <script type="text/javascript" src="/javascripts/users/index.js"></script>
     </head>
     <body>
         <h1>詳細画面</h1>
+        <div class="user_list_area">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th>user_id</th>
+                    </tr>
+                    <tr>
+                        <th>name</th>
+                    </tr>
+                    <tr>
+                        <th>age</th>
+                    </tr>
+                    <tr>
+                        <th>gender</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+
     </body>
+
 </html>
